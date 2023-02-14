@@ -6,11 +6,11 @@ public class EnemySpawnerSystem : GSystem
 {
     public override void InitializeSystem()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public override void UpdateSystem()
     {
-        throw new System.NotImplementedException();
+
     }
 }

@@ -31,14 +31,14 @@ public class InputManager : GManager
         moveInputDirection.x = 0;
         moveInputDirection.y = 0;
 
-        if (Input.GetKeyDown(forwardMoveKey))
+        if (Input.GetKey(forwardMoveKey))
             moveInputDirection.y = 1;
-        else if (Input.GetKeyDown(backwardMoveKey))
+        else if (Input.GetKey(backwardMoveKey))
             moveInputDirection.y = -1;
-        if (Input.GetKeyDown(leftMoveKey))
-            moveInputDirection.x = 1;
-        else if (Input.GetKeyDown(rightMoveKey))
+        if (Input.GetKey(leftMoveKey))
             moveInputDirection.x = -1;
+        else if (Input.GetKey(rightMoveKey))
+            moveInputDirection.x = 1;
 
         moveInputDirection.Normalize();
     }
