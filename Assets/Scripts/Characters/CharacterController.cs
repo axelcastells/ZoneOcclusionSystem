@@ -15,7 +15,7 @@ public class CharacterController : MonoBehaviour, IPawn, ILocatable, IOccludable
     [SerializeField] private float gizmoRadius = .1f;
 
     private bool isHidden = false;
-
+    
     private void OnDrawGizmos()
     {
         if (isHidden)
@@ -80,5 +80,10 @@ public class CharacterController : MonoBehaviour, IPawn, ILocatable, IOccludable
     public bool IsHidden()
     {
         return isHidden;
+    }
+
+    public void Die()
+    {
+        gameObject.SetActive(false);
     }
 }

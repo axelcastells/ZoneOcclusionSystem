@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PlayerSystem : GSystem
 {
-
+    [SerializeField] private ZonesSystem _zoneSystem;
 
     [SerializeField] private float playerSpeed = 4f;
     [SerializeField] private Color playerColor = Color.cyan;
@@ -36,6 +36,16 @@ public class PlayerSystem : GSystem
     public override void InitializeSystem()
     {
         SpawnAndPossessCharacter();
+
+        Managers.inputManager.OnActionAPressed.AddListener(() =>
+        {
+            TeleportPlayer(_zoneSystem.Zones[Random.Range(0, _zoneSystem.Zones.Count)].Bounds.center);
+        });
+    }
+
+    void TeleportPlayer(Vector3 position)
+    {
+        ControlledPawn.SetPosition(position);
     }
 
     public override void UpdateSystem()

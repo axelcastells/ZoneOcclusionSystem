@@ -249,6 +249,20 @@ MonoBehaviour:
   backwardMoveKey: 115
   leftMoveKey: 97
   rightMoveKey: 100
+  actionAKey: 32
+  actionBKey: 101
+  OnActionAPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnActionBPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnActionAReleased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnActionBReleased:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &467708095
 Transform:
   m_ObjectHideFlags: 0
@@ -294,6 +308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d985a37d1792dcb4db4e80177b7bb1a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerSystem: {fileID: 1182245725}
+  enemyDeathDistanceToPlayer: 2
   enemiesSpeed: 2
   enemiesColor: {r: 1, g: 0, b: 0, a: 1}
   randomDirectionRange: 1
@@ -890,6 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fcd5725bbd889e4a826cc0051858e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _zoneSystem: {fileID: 667180418}
   playerSpeed: 4
   playerColor: {r: 0, g: 1, b: 1, a: 1}
   _characterFactorySystem: {fileID: 1651112219}

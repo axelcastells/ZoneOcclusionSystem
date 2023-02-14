@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class EnemyAISystem : GSystem
 {
+    [SerializeField] private PlayerSystem _playerSystem;
+
+    [SerializeField] private float enemyDeathDistanceToPlayer = 2f;
     [SerializeField] private float enemiesSpeed = 2f;
     [SerializeField] private Color enemiesColor = Color.red;
     [SerializeField] private float randomDirectionRange = 1f;
@@ -27,6 +30,8 @@ public class EnemyAISystem : GSystem
     public override void InitializeSystem()
     {
         SpawnInitialEnemies();
+
+        Managers.inputManager.OnActionBPressed.AddListener(SpawnEnemy);
     }
 
     void Possess(IPawn pawn)
@@ -56,10 +61,15 @@ public class EnemyAISystem : GSystem
     {
         for (int i = 0; i < _initialEnemyAmount; i++)
         {
-            Vector3 randomSpawnPosition = new Vector3(Random.Range(Bounds.center.x - Bounds.extents.x, Bounds.center.x + Bounds.extents.x),
-                0, Random.Range(Bounds.center.z - Bounds.extents.z, Bounds.center.z + Bounds.extents.z));
-            Possess(_characterFactorySystem.SpawnCharacter(randomSpawnPosition).SetSpeed(enemiesSpeed).SetColor(enemiesColor));
+            SpawnEnemy();
         }
+    }
+
+    private void SpawnEnemy()
+    {
+        Vector3 randomSpawnPosition = new Vector3(Random.Range(Bounds.center.x - Bounds.extents.x, Bounds.center.x + Bounds.extents.x),
+            0, Random.Range(Bounds.center.z - Bounds.extents.z, Bounds.center.z + Bounds.extents.z));
+        Possess(_characterFactorySystem.SpawnCharacter(randomSpawnPosition).SetSpeed(enemiesSpeed).SetColor(enemiesColor));
     }
 
     public override void UpdateSystem()
@@ -80,6 +90,17 @@ public class EnemyAISystem : GSystem
         state.direction = Quaternion.AngleAxis(Random.Range(-randomDirectionRange, randomDirectionRange), Vector2.up) * state.direction;
         
         pawn.Move(state.direction);
+
+        if (IsNearPlayer(pawn, enemyDeathDistanceToPlayer))
+            pawn.Die();
+    }
+
+    bool IsNearPlayer(IPawn pawn, float distance)
+    {
+        if (Vector3.Distance(_playerSystem.ControlledPawn.GetPosition(), pawn.GetPosition()) < distance)
+            return true;
+        else
+            return false;
     }
 }
 

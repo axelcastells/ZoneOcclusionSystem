@@ -11,6 +11,14 @@ public class InputManager : GManager
     [SerializeField] private KeyCode backwardMoveKey = KeyCode.S;
     [SerializeField] private KeyCode leftMoveKey = KeyCode.A;
     [SerializeField] private KeyCode rightMoveKey = KeyCode.D;
+    [SerializeField] private KeyCode actionAKey = KeyCode.Space;
+    [SerializeField] private KeyCode actionBKey = KeyCode.E;
+
+    public UnityEvent OnActionAPressed;
+    public UnityEvent OnActionBPressed;
+    public UnityEvent OnActionAReleased;
+    public UnityEvent OnActionBReleased;
+
     public override void InitializeManager()
     {
 
@@ -39,6 +47,16 @@ public class InputManager : GManager
             moveInputDirection.x = -1;
         else if (Input.GetKey(rightMoveKey))
             moveInputDirection.x = 1;
+
+        if (Input.GetKeyDown(actionAKey))
+            OnActionAPressed.Invoke();        
+        else if (Input.GetKeyUp(actionAKey))
+            OnActionAReleased.Invoke();
+
+        if (Input.GetKeyDown(actionBKey))
+            OnActionBPressed.Invoke();
+        else if (Input.GetKeyUp(actionBKey))
+            OnActionBReleased.Invoke();
 
         moveInputDirection.Normalize();
     }

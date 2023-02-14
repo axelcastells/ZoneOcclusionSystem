@@ -16,6 +16,11 @@ public class ZonesSystem : GSystem
     public UnityEvent<ILocatable, ZoneController> OnLocatableEnteredZone = new UnityEvent<ILocatable, ZoneController>();
     public UnityEvent<ILocatable, ZoneController> OnLocatableLeftZone = new UnityEvent<ILocatable, ZoneController>();
 
+    public List<ZoneController> Zones
+    {
+        get { return _zoneControllers; }
+    }
+
     public override void InitializeSystem()
     {
         _zoneControllers = FindObjectsOfType<ZoneController>().ToList();
