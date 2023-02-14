@@ -5,6 +5,10 @@ using UnityEngine.Events;
 
 public class PlayerSystem : GSystem
 {
+
+
+    [SerializeField] private float playerSpeed = 4f;
+    [SerializeField] private Color playerColor = Color.cyan;
     [SerializeField] private CharacterFactorySystem _characterFactorySystem;
     [SerializeField] private CameraSystem _cameraSystem;
     [SerializeField] private Transform _spawnPoint;
@@ -24,7 +28,7 @@ public class PlayerSystem : GSystem
 
     void SpawnAndPossessCharacter()
     {
-        IPawn newPawn = _characterFactorySystem.SpawnCharacter(_spawnPoint.position);
+        IPawn newPawn = _characterFactorySystem.SpawnCharacter(_spawnPoint.position).SetSpeed(playerSpeed).SetColor(playerColor);
         _cameraSystem.FollowTarget(newPawn.GetTransform());
         Possess(newPawn);
     }

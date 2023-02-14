@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class CharacterController : MonoBehaviour, IPawn, ILocatable, IOccludable
 {
-    [SerializeField] private float speed = 3f;
+    private float speed = 3f;
+    [SerializeField] Transform avatarTransform;
+    [SerializeField] List<Renderer> visibleParts;
 
     [Header("Gizmo Variables")]
     [SerializeField] private float yGizmoDistance = 1f;
@@ -38,6 +41,20 @@ public class CharacterController : MonoBehaviour, IPawn, ILocatable, IOccludable
         transform.position = worldPosition;
     }
 
+    public CharacterController SetSpeed(float speed)
+    {
+        this.speed = speed;
+        return this;
+    }
+
+    public CharacterController SetColor(Color color)
+    {
+        for (int i = 0; i < visibleParts.Count; i++) 
+            visibleParts[i].material.color = color;
+
+        return this;
+    }
+
     public Vector3 GetPosition()
     {
         return transform.position;
@@ -46,15 +63,22 @@ public class CharacterController : MonoBehaviour, IPawn, ILocatable, IOccludable
     public void Show()
     {
         isHidden = false;
+        avatarTransform.gameObject.SetActive(true);
     }
 
     public void Hide()
     {
         isHidden = true;
+        avatarTransform.gameObject.SetActive(false);
     }
 
     public Transform GetTransform()
     {
         return transform;
+    }
+
+    public bool IsHidden()
+    {
+        return isHidden;
     }
 }

@@ -55,20 +55,13 @@ public class ZoneOcclusionSystem : GSystem
             {
                 for (int j = 0; j < _knownLocatablesList[i].currentZones.Count; j++)
                 {
-                    if (playerOccludableData.currentZones.Contains(_knownLocatablesList[i].currentZones[j]))
+                    if (playerOccludableData.currentZones.Contains(_knownLocatablesList[i].currentZones[j]) && _knownLocatablesList[i].occludable.IsHidden())
                         _knownLocatablesList[i].occludable.Show();
-                    else
+                    else if(!playerOccludableData.currentZones.Contains(_knownLocatablesList[i].currentZones[j]) && !_knownLocatablesList[i].occludable.IsHidden())
                         _knownLocatablesList[i].occludable.Hide();
-
                 }
-                
             }
         }
-        else
-        {
-            Debug.LogError("NO PLaYER DAYA");
-        }
-
     }
 
     [System.Serializable]
