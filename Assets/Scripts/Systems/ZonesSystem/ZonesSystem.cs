@@ -10,7 +10,6 @@ public class ZonesSystem : GSystem
     [SerializeField] private CharacterFactorySystem _characterFactorySystem;
 
     private List<ZoneController> _zoneControllers = new List<ZoneController>();
-
     private List<LocatableData> _locatableDataList = new List<LocatableData>();
 
 
@@ -22,7 +21,6 @@ public class ZonesSystem : GSystem
         _zoneControllers = FindObjectsOfType<ZoneController>().ToList();
         _characterFactorySystem.OnCharacterSpawned.AddListener((potentialLocatable) => 
         {
-            Debug.Log("Char Spawn");
             if(potentialLocatable is ILocatable)
                 _locatableDataList.Add(new LocatableData(potentialLocatable)); 
         });

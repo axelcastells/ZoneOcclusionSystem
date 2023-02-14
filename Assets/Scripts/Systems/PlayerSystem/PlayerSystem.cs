@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerSystem : GSystem
 {
@@ -11,10 +12,14 @@ public class PlayerSystem : GSystem
     private Vector3 convertedDirection = Vector3.zero;
 
     IPawn _controlledPawn = null;
+    public IPawn ControlledPawn { get { return _controlledPawn; } }
+
+    public UnityEvent<IPawn> OnPawnPossessed = new UnityEvent<IPawn>();
 
     public void Possess(IPawn pawn)
     {
         _controlledPawn = pawn;
+        OnPawnPossessed.Invoke(_controlledPawn);
     }
 
     void SpawnAndPossessCharacter()

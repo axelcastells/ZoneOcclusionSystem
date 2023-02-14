@@ -10,34 +10,29 @@ public class ZoneController : MonoBehaviour
     [SerializeField] List<ZoneController> neighbourZones;
 
     private BoxCollider area;
-    private BoxCollider Area
+    public Bounds Bounds
     {
         get
         {
             if(area == null)
                 area = GetComponent<BoxCollider>();
-            return area;
+            return area.bounds;
         }
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = zoneColor;
-        Gizmos.DrawWireCube(Area.bounds.center, Area.bounds.size);
+        Gizmos.DrawWireCube(Bounds.center, Bounds.size);
 
         Gizmos.color = Color.white;
         for(int i = 0; i < neighbourZones.Count; i++)
         {
-            Gizmos.DrawLine(Area.bounds.center, neighbourZones[i].GetBounds().center);
+            Gizmos.DrawLine(Bounds.center, neighbourZones[i].Bounds.center);
         }
-    }
-
-    public Bounds GetBounds()
-    {
-        return Area.bounds;
     }
 
     public bool Contains(Vector3 position)
     {
-        return Area.bounds.Contains(position);
+        return Bounds.Contains(position);
     }
 }

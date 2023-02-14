@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CharacterController : MonoBehaviour, IPawn, ILocatable
+public class CharacterController : MonoBehaviour, IPawn, ILocatable, IOccludable
 {
     [SerializeField] private float speed = 3f;
 
