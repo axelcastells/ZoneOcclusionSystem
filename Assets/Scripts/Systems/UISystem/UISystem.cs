@@ -6,6 +6,7 @@ public class UISystem : GSystem
 {
     [SerializeField] ZoneOcclusionSystem _zoneOcclusionSystem;
     [SerializeField] ZonesSystem _zonesSystem;
+    [SerializeField] CharacterFactorySystem _characterFactorySystem;
 
     [SerializeField] UISystemGUI ui;
     public override void InitializeSystem()
@@ -15,7 +16,7 @@ public class UISystem : GSystem
 
     public override void UpdateSystem()
     {
-        ui.SetHiddenCount(_zoneOcclusionSystem.GetHiddenOccludablesCount(), _zoneOcclusionSystem.GetTotalOccludablesCount());
+        ui.SetHiddenCount(_zoneOcclusionSystem.GetHiddenOccludablesCount(), _characterFactorySystem.GetSpawnedCharacters().Count);
         ui.SetRelationsText(_zonesSystem.NeighbourRelations);
     }
 }

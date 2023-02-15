@@ -36,6 +36,12 @@ public class CharacterFactorySystem : GSystem
         else
             newCharacter = InstantiateCharacter(position);
 
+        newCharacter.OnDied.AddListener((character) =>
+        {
+            spawnedCharacters.Remove(character);
+        });
+
+        spawnedCharacters.Add(newCharacter);
         OnCharacterSpawned.Invoke(newCharacter);
         return newCharacter;
     }

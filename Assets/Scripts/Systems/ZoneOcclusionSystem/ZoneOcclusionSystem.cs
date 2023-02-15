@@ -22,11 +22,6 @@ public class ZoneOcclusionSystem : GSystem
         return _knownOccludablesList;
     }
 
-    public int GetTotalOccludablesCount()
-    {
-        return _knownOccludablesList.Count;
-    }
-
     public int GetHiddenOccludablesCount()
     {
         return _currentHiddenOccludablesCount;
