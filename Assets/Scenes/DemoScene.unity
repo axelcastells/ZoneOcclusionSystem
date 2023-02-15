@@ -688,8 +688,12 @@ MonoBehaviour:
   _characterFactorySystem: {fileID: 1651112219}
   _neighbourRelations:
   - zoneA: {fileID: 1117401705}
-    zoneB: {fileID: 1446769760}
+    zoneB: {fileID: 1774966645}
+  - zoneA: {fileID: 1117401705}
+    zoneB: {fileID: 1505172665}
   - zoneA: {fileID: 1505172665}
+    zoneB: {fileID: 1446769760}
+  - zoneA: {fileID: 1446769760}
     zoneB: {fileID: 1774966645}
   OnLocatableEnteredZone:
     m_PersistentCalls:
@@ -1363,6 +1367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerSystem: {fileID: 1182245725}
   _zonesSystem: {fileID: 667180418}
+  _characterFactorySystem: {fileID: 1651112219}
 --- !u!4 &1050645152
 Transform:
   m_ObjectHideFlags: 0
@@ -1424,9 +1429,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneColor: {r: 0, g: 0, b: 1, a: 0.2509804}
-  OnInspectorModified:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &1117401706
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1865,9 +1867,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneColor: {r: 0.01234436, g: 1, b: 0, a: 0.2509804}
-  OnInspectorModified:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &1446769761
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1927,9 +1926,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneColor: {r: 1, g: 0, b: 0, a: 0.2509804}
-  OnInspectorModified:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &1505172666
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1974,7 +1970,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _zoneOcclusionSystem: {fileID: 1050645151}
   _zonesSystem: {fileID: 667180418}
-  _characterFactorySystem: {fileID: 1651112219}
   ui: {fileID: 1788107544}
 --- !u!4 &1518964221
 Transform:
@@ -2054,6 +2049,9 @@ MonoBehaviour:
   characterPrefab: {fileID: 4203957306228018942, guid: adca1d813f6bd1a479a229995ba59945, type: 3}
   characterPoolingAmount: 100
   OnCharacterSpawned:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCharacterDestroyed:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1651112220
@@ -2152,9 +2150,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneColor: {r: 1, g: 0.6964086, b: 0, a: 0.2509804}
-  OnInspectorModified:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &1774966646
 BoxCollider:
   m_ObjectHideFlags: 0

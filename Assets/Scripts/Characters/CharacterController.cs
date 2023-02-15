@@ -15,7 +15,7 @@ public class CharacterController : MonoBehaviour, IPawn, ILocatable, IOccludable
     [SerializeField] private float yGizmoDistance = 1f;
     [SerializeField] private float gizmoRadius = .1f;
 
-    public UnityEvent<CharacterController> OnDied = new UnityEvent<CharacterController>();
+    public UnityEvent<IPawn> OnDiedEvent = new UnityEvent<IPawn>();
 
     private bool isHidden = false;
     
@@ -87,7 +87,12 @@ public class CharacterController : MonoBehaviour, IPawn, ILocatable, IOccludable
 
     public void Die()
     {
-        OnDied.Invoke(this);
+        OnDiedEvent.Invoke(this);
         gameObject.SetActive(false);
+    }
+
+    public UnityEvent<IPawn> OnDied()
+    {
+        return OnDiedEvent;
     }
 }

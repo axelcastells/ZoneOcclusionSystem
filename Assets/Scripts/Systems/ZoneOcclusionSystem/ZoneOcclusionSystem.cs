@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class ZoneOcclusionSystem : GSystem
 {
     [SerializeField] PlayerSystem _playerSystem;
     [SerializeField] ZonesSystem _zonesSystem;
+    [SerializeField] CharacterFactorySystem _characterFactorySystem;
 
     private OccludableData playerOccludableData = null;
     private List<OccludableData> _knownOccludablesList = new List<OccludableData>();
 
     private int _currentHiddenOccludablesCount = 0;
-    OccludableData GetOccludabledata(IOccludable occludable)
+    OccludableData GetOccludableData(IOccludable occludable)
     {
         return _knownOccludablesList.Find(x => x.occludable == occludable);
+    }
+
+    void RemoveNullOccludablesFromList()
+    {
+        _knownOccludablesList.RemoveAll(x => x.occludable == null);
     }
 
     public List<OccludableData> GetKnownOccludables()
@@ -29,29 +36,43 @@ public class ZoneOcclusionSystem : GSystem
 
     public override void InitializeSystem()
     {
+        _characterFactorySystem.OnCharacterDestroyed.AddListener((pawn) =>
+        {
+            if(pawn is IOccludable)
+            {
+                RemoveNullOccludablesFromList();
+                OccludableData selectedOccludable = GetOccludableData(pawn as IOccludable);
+                if (_knownOccludablesList.Contains(selectedOccludable))
+                    _knownOccludablesList.Remove(selectedOccludable);
+            }
+        });
+
+        _characterFactorySystem.OnCharacterSpawned.AddListener((pawn) =>
+        {
+            if(pawn is IOccludable)
+                GetOrAddOccludable(pawn as IOccludable);
+        });
+
         _playerSystem.OnPawnPossessed.AddListener((pawn) =>
         {
-            Debug.Log("POSSESSION");
             if (pawn is IOccludable)
-                playerOccludableData = GetOccludabledata(pawn as IOccludable);
+                playerOccludableData = GetOccludableData(pawn as IOccludable);
         });
 
         _zonesSystem.OnLocatableEnteredZone.AddListener((locatable, zone) =>
         {
             if (locatable is IOccludable)
-                AddOccludableIfUnknown(locatable as IOccludable).currentZones.Add(zone);
-            Debug.Log($"Entered Zone");
+                GetOrAddOccludable(locatable as IOccludable).currentZones.Add(zone);
         });
 
         _zonesSystem.OnLocatableLeftZone.AddListener((locatable, zone) =>
         {
             if (locatable is IOccludable)
-                AddOccludableIfUnknown(locatable as IOccludable).currentZones.Remove(zone);
-            Debug.Log($"Left Zone");
+                GetOrAddOccludable(locatable as IOccludable).currentZones.Remove(zone);
         });
     }
 
-    private OccludableData AddOccludableIfUnknown(IOccludable occludable)
+    private OccludableData GetOrAddOccludable(IOccludable occludable)
     {
         OccludableData newOccludableData = _knownOccludablesList.Find(l => l.occludable == occludable);
 
@@ -66,7 +87,7 @@ public class ZoneOcclusionSystem : GSystem
 
     public override void UpdateSystem()
     {
-        playerOccludableData = GetOccludabledata(_playerSystem.ControlledPawn as IOccludable);
+        playerOccludableData = GetOccludableData(_playerSystem.ControlledPawn as IOccludable);
 
         if (playerOccludableData != null)
         {

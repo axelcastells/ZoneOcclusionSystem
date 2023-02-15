@@ -11,7 +11,6 @@ public class ZoneController : MonoBehaviour
 
     private BoxCollider area;
 
-    public UnityEvent<ZoneController> OnInspectorModified = new UnityEvent<ZoneController>();
     public Bounds Bounds
     {
         get
@@ -20,24 +19,6 @@ public class ZoneController : MonoBehaviour
                 area = GetComponent<BoxCollider>();
             return area.bounds;
         }
-    }
-
-    private void OnValidate()
-    {
-        Debug.Log("VALIDATE");
-        OnInspectorModified.Invoke(this);
-        // Remove Duplicates
-        //_neighbourZones.RemoveDuplicates();
-
-        //for (int i = 0; i < this._neighbourZones.Count; i++)
-        //{
-        //    _neighbourZones[i]._neighbourZones.RemoveAll(x => x.Equals(this));
-
-        //    if (!_neighbourZones[i]._neighbourZones.Contains(this))
-        //    {
-        //        _neighbourZones[i]._neighbourZones.Add(this);
-        //    }
-        //}
     }
 
     private void OnDrawGizmos()

@@ -52,7 +52,7 @@ public class ZonesSystem : GSystem
         _characterFactorySystem.OnCharacterSpawned.AddListener((potentialLocatable) =>
         {
             if (potentialLocatable is ILocatable)
-                _locatableDataList.Add(new LocatableData(potentialLocatable));
+                _locatableDataList.Add(new LocatableData(potentialLocatable as ILocatable));
         });
     }
 

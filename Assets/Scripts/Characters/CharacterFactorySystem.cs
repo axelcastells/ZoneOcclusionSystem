@@ -11,11 +11,12 @@ public class CharacterFactorySystem : GSystem
     [SerializeField] private int characterPoolingAmount = 100;
 
     private Queue<CharacterController> charactersPool = new Queue<CharacterController>();
-    private List<CharacterController> spawnedCharacters = new List<CharacterController>();
+    private List<IPawn> spawnedCharacters = new List<IPawn>();
 
-    public UnityEvent<CharacterController> OnCharacterSpawned = new UnityEvent<CharacterController>();
+    public UnityEvent<IPawn> OnCharacterSpawned = new UnityEvent<IPawn>();
+    public UnityEvent<IPawn> OnCharacterDestroyed = new UnityEvent<IPawn>();
 
-    public List<CharacterController> GetSpawnedCharacters() { return spawnedCharacters; }
+    public List<IPawn> GetSpawnedCharacters() { return spawnedCharacters; }
 
     public override void InitializeSystem()
     {
@@ -36,8 +37,9 @@ public class CharacterFactorySystem : GSystem
         else
             newCharacter = InstantiateCharacter(position);
 
-        newCharacter.OnDied.AddListener((character) =>
+        newCharacter.OnDiedEvent.AddListener((character) =>
         {
+            OnCharacterDestroyed.Invoke(character);
             spawnedCharacters.Remove(character);
         });
 

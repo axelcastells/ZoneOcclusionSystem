@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface IPawn
 {
@@ -9,4 +10,5 @@ public interface IPawn
     public void SetPosition(Vector3 worldPosition);
     public Vector3 GetPosition();
     public void Die();
+    public UnityEvent<IPawn> OnDied();
 }

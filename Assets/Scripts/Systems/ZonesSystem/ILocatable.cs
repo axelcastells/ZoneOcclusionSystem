@@ -5,12 +5,4 @@ using UnityEngine;
 public interface ILocatable
 {
     Vector3 GetPosition();
-
-}
-
-public interface IOccludable
-{
-    void Show();
-    void Hide();
-    bool IsHidden();
 }
