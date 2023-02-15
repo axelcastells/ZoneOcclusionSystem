@@ -1974,6 +1974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _zoneOcclusionSystem: {fileID: 1050645151}
   _zonesSystem: {fileID: 667180418}
+  _characterFactorySystem: {fileID: 1651112219}
   ui: {fileID: 1788107544}
 --- !u!4 &1518964221
 Transform:
