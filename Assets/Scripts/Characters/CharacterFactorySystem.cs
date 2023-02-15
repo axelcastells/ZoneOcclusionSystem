@@ -50,5 +50,4 @@ public class CharacterFactorySystem : GSystem
         for (int i = 0; i < characterPoolingAmount; i++)
             charactersPool.Enqueue(InstantiateCharacter(NOWHERE));
     }
-
 }

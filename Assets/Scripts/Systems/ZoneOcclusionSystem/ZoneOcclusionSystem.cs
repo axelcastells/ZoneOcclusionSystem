@@ -9,15 +9,38 @@ public class ZoneOcclusionSystem : GSystem
     [SerializeField] ZonesSystem _zonesSystem;
 
     private OccludableData playerOccludableData = null;
-    private List<OccludableData> _knownLocatablesList = new List<OccludableData>();
+    private List<OccludableData> _knownOccludablesList = new List<OccludableData>();
 
-    OccludableData GetPlayerOccludableData()
+    private int _currentHiddenOccludablesCount = 0;
+    OccludableData GetOccludabledata(IOccludable occludable)
     {
-        return _knownLocatablesList.Find(x => x.occludable == _playerSystem.ControlledPawn);
+        return _knownOccludablesList.Find(x => x.occludable == occludable);
+    }
+
+    public List<OccludableData> GetKnownOccludables()
+    {
+        return _knownOccludablesList;
+    }
+
+    public int GetTotalOccludablesCount()
+    {
+        return _knownOccludablesList.Count;
+    }
+
+    public int GetHiddenOccludablesCount()
+    {
+        return _currentHiddenOccludablesCount;
     }
 
     public override void InitializeSystem()
     {
+        _playerSystem.OnPawnPossessed.AddListener((pawn) =>
+        {
+            Debug.Log("POSSESSION");
+            if (pawn is IOccludable)
+                playerOccludableData = GetOccludabledata(pawn as IOccludable);
+        });
+
         _zonesSystem.OnLocatableEnteredZone.AddListener((locatable, zone) =>
         {
             if (locatable is IOccludable)
@@ -27,7 +50,7 @@ public class ZoneOcclusionSystem : GSystem
 
         _zonesSystem.OnLocatableLeftZone.AddListener((locatable, zone) =>
         {
-            if(locatable is IOccludable)
+            if (locatable is IOccludable)
                 AddOccludableIfUnknown(locatable as IOccludable).currentZones.Remove(zone);
             Debug.Log($"Left Zone");
         });
@@ -35,12 +58,12 @@ public class ZoneOcclusionSystem : GSystem
 
     private OccludableData AddOccludableIfUnknown(IOccludable occludable)
     {
-        OccludableData newOccludableData = _knownLocatablesList.Find(l => l.occludable == occludable);
+        OccludableData newOccludableData = _knownOccludablesList.Find(l => l.occludable == occludable);
 
         if (newOccludableData == null)
         {
             newOccludableData = new OccludableData(occludable);
-            _knownLocatablesList.Add(newOccludableData);
+            _knownOccludablesList.Add(newOccludableData);
         }
 
         return newOccludableData;
@@ -48,21 +71,33 @@ public class ZoneOcclusionSystem : GSystem
 
     public override void UpdateSystem()
     {
-        playerOccludableData = GetPlayerOccludableData();
+        playerOccludableData = GetOccludabledata(_playerSystem.ControlledPawn as IOccludable);
 
         if (playerOccludableData != null)
         {
-            for (int i = 0; i < _knownLocatablesList.Count; i++)
+            for (int i = 0; i < _knownOccludablesList.Count; i++)
             {
-                for (int j = 0; j < _knownLocatablesList[i].currentZones.Count; j++)
+                for (int j = 0; j < _knownOccludablesList[i].currentZones.Count; j++)
                 {
-                    if (AreZonesWithinReach(playerOccludableData.currentZones, _knownLocatablesList[i].currentZones[j]) && _knownLocatablesList[i].occludable.IsHidden())
-                        _knownLocatablesList[i].occludable.Show();
-                    else if (!AreZonesWithinReach(playerOccludableData.currentZones, _knownLocatablesList[i].currentZones[j]) && !_knownLocatablesList[i].occludable.IsHidden())
-                        _knownLocatablesList[i].occludable.Hide();
+                    if (AreZonesWithinReach(playerOccludableData.currentZones, _knownOccludablesList[i].currentZones[j]) && _knownOccludablesList[i].occludable.IsHidden())
+                        ShowOccludable(_knownOccludablesList[i].occludable);
+                    else if (!AreZonesWithinReach(playerOccludableData.currentZones, _knownOccludablesList[i].currentZones[j]) && !_knownOccludablesList[i].occludable.IsHidden())
+                        HideOccludable(_knownOccludablesList[i].occludable);
                 }
             }
         }
+    }
+
+    void HideOccludable(IOccludable occludable)
+    {
+        _currentHiddenOccludablesCount++;
+        occludable.Hide();
+    }
+
+    void ShowOccludable(IOccludable occludable)
+    {
+        _currentHiddenOccludablesCount = Mathf.Clamp(_currentHiddenOccludablesCount - 1, 0, _knownOccludablesList.Count);
+        occludable.Show();
     }
 
     bool AreZonesWithinReach(List<ZoneController> potentiallyReachableZones, ZoneController targetZone)
@@ -77,7 +112,7 @@ public class ZoneOcclusionSystem : GSystem
 
         return false;
     }
-
+    
     [System.Serializable]
     public class OccludableData
     {

@@ -43,7 +43,7 @@ public class ZoneController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = zoneColor;
-        Gizmos.DrawWireCube(Bounds.center, new Vector3(Bounds.size.x, 0, Bounds.size.z));
+        Gizmos.DrawCube(Bounds.center, new Vector3(Bounds.size.x, 0, Bounds.size.z));
     }
     public bool Contains(Vector3 position)
     {

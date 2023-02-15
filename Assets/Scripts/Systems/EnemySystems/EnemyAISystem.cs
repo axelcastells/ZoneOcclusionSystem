@@ -26,6 +26,13 @@ public class EnemyAISystem : GSystem
             return area.bounds;
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireCube(Bounds.center, new Vector3(Bounds.size.x, 0, Bounds.size.z));
+    }
+
     public override void InitializeSystem()
     {
         SpawnInitialEnemies();
@@ -52,16 +59,14 @@ public class EnemyAISystem : GSystem
     private void SetupPawnState(IPawn pawn)
     {
         AIState state = new AIState();
-        state.direction = pawn.GetTransform().forward;
+        state.direction = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
         aiStates.Add(pawn, state);
     }
 
     void SpawnInitialEnemies()
     {
         for (int i = 0; i < _initialEnemyAmount; i++)
-        {
             SpawnEnemy();
-        }
     }
 
     private void SpawnEnemy()

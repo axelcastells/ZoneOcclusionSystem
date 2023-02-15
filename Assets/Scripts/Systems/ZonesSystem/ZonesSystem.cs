@@ -14,6 +14,11 @@ public class ZonesSystem : GSystem
 
     [SerializeField] private List<ZonePair> _neighbourRelations = new List<ZonePair>();
 
+    public List<ZonePair> NeighbourRelations
+    {
+        get { return _neighbourRelations; }
+    }
+
 
     public UnityEvent<ILocatable, ZoneController> OnLocatableEnteredZone = new UnityEvent<ILocatable, ZoneController>();
     public UnityEvent<ILocatable, ZoneController> OnLocatableLeftZone = new UnityEvent<ILocatable, ZoneController>();
