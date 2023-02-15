@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ZoneOcclusionSystem : GSystem
@@ -55,13 +56,26 @@ public class ZoneOcclusionSystem : GSystem
             {
                 for (int j = 0; j < _knownLocatablesList[i].currentZones.Count; j++)
                 {
-                    if (playerOccludableData.currentZones.Contains(_knownLocatablesList[i].currentZones[j]) && _knownLocatablesList[i].occludable.IsHidden())
+                    if (AreZonesWithinReach(playerOccludableData.currentZones, _knownLocatablesList[i].currentZones[j]) && _knownLocatablesList[i].occludable.IsHidden())
                         _knownLocatablesList[i].occludable.Show();
-                    else if(!playerOccludableData.currentZones.Contains(_knownLocatablesList[i].currentZones[j]) && !_knownLocatablesList[i].occludable.IsHidden())
+                    else if (!AreZonesWithinReach(playerOccludableData.currentZones, _knownLocatablesList[i].currentZones[j]) && !_knownLocatablesList[i].occludable.IsHidden())
                         _knownLocatablesList[i].occludable.Hide();
                 }
             }
         }
+    }
+
+    bool AreZonesWithinReach(List<ZoneController> potentiallyReachableZones, ZoneController targetZone)
+    {
+        List<ZoneController> targetZoneNeigbours = _zonesSystem.GetNeighbours(targetZone);
+
+        for(int i = 0; i < targetZoneNeigbours.Count; i++)
+        {
+            if (potentiallyReachableZones.Contains(targetZoneNeigbours[i]))
+                return true;
+        }
+
+        return false;
     }
 
     [System.Serializable]

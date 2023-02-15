@@ -309,12 +309,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSystem: {fileID: 1182245725}
+  _characterFactorySystem: {fileID: 1651112219}
   enemyDeathDistanceToPlayer: 2
   enemiesSpeed: 2
   enemiesColor: {r: 1, g: 0, b: 0, a: 1}
   randomDirectionRange: 1
-  _characterFactorySystem: {fileID: 1651112219}
-  _initialEnemyAmount: 50
+  _initialEnemyAmount: 0
 --- !u!4 &550079451
 Transform:
   m_ObjectHideFlags: 0
@@ -373,6 +373,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _characterFactorySystem: {fileID: 1651112219}
+  _neighbourRelations:
+  - zoneA: {fileID: 1117401705}
+    zoneB: {fileID: 1505172665}
   OnLocatableEnteredZone:
     m_PersistentCalls:
       m_Calls: []
@@ -862,8 +865,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneColor: {r: 0, g: 0, b: 1, a: 1}
-  neighbourZones:
-  - {fileID: 1505172665}
+  OnInspectorModified:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1117401706
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1008,8 +1012,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneColor: {r: 0.01234436, g: 1, b: 0, a: 1}
-  neighbourZones:
-  - {fileID: 1774966645}
+  OnInspectorModified:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1446769761
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1069,7 +1074,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneColor: {r: 1, g: 0, b: 0, a: 1}
-  neighbourZones: []
+  OnInspectorModified:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1505172666
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1244,7 +1251,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zoneColor: {r: 0, g: 0, b: 0, a: 1}
-  neighbourZones: []
+  OnInspectorModified:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1774966646
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -6,12 +6,11 @@ using UnityEngine;
 public class EnemyAISystem : GSystem
 {
     [SerializeField] private PlayerSystem _playerSystem;
-
+    [SerializeField] private CharacterFactorySystem _characterFactorySystem;
     [SerializeField] private float enemyDeathDistanceToPlayer = 2f;
     [SerializeField] private float enemiesSpeed = 2f;
     [SerializeField] private Color enemiesColor = Color.red;
     [SerializeField] private float randomDirectionRange = 1f;
-    [SerializeField] private CharacterFactorySystem _characterFactorySystem;
     [SerializeField] private int _initialEnemyAmount = 50;
 
     private List<IPawn> controlledPawns = new List<IPawn>();
@@ -77,8 +76,6 @@ public class EnemyAISystem : GSystem
         for(int i = 0; i < controlledPawns.Count; i++)
             UpdatePawnBehaviour(controlledPawns[i]);
     }
-
-    
 
     void UpdatePawnBehaviour(IPawn pawn)
     {

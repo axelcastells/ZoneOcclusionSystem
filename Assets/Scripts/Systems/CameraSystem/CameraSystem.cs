@@ -7,6 +7,7 @@ public class CameraSystem : GSystem
     [SerializeField] private Camera _camera;
     [SerializeField] private float _zDistanceFromTarget;
     [SerializeField] private float _yDistanceFromTarget;
+
     private Transform _cameraTarget;
     public override void InitializeSystem()
     {
